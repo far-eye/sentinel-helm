@@ -1,0 +1,21 @@
+apiVersion: databases.spotahome.com/v1
+kind: RedisFailover
+metadata:
+  name: {{ include "fullname" . }}
+  labels:
+    {{- include "labels" . | nindent 4 }}
+spec:
+  sentinel:
+    replicas: {{ .Values.replicaCount }}
+  redis:
+    replicas: {{ .Values.replicaCount }}
+    storage:
+      persistentVolumeClaim:
+        metadata:
+          name: data-redisfailover
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 20Gi
