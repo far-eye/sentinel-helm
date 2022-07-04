@@ -1,51 +1,13 @@
 replicaCount: 3
 
 image:
-  repository: "766930725927.dkr.ecr.us-west-2.amazonaws.com/loop-optimization"
+  repository: "redis-sentinel"
   pullPolicy: IfNotPresent
   tag:  v.1.0.1
 
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
-
-serviceAccount:
-  # Specifies whether a service account should be created
-   create: true
-  # The name of the service account to use.
-  # If not set and create is true, a name is generated using the fullname template
-  # name: fullname
-
-podSecurityContext: {}
-  # fsGroup: 2000
-
-securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
-
-service:
-   type: ClusterIP
-   port: 8080
-   targetPort: loop-opt-port
-
-ingresses:
-  - name: loop-optimization-office-ingress
-    host: loop-opt-staging.k8s.fareye.io
-    tlsSecretName: loop-opt-office-staging-tls
-    annotations:
-      cert-manager.io/cluster-issuer: letsencrypt-prod
-      kubernetes.io/ingress.class: nginx-office
-      kubernetes.io/tls-acme: 'true'
-    path: "/"
-  - name: loop-optimization-private-ingress
-    host: loop-opt-staging.prod.internal
-    annotations:
-      kubernetes.io/ingress.class: nginx-private
-    path: "/"
 
 resources:
    limits:
@@ -55,19 +17,13 @@ resources:
      cpu: 100m
      memory: 128Mi
 
+storage: 20Gi
+
 ports:
    - name: loop-opt-port
      port: 8080
      protocol: TCP
 
-livenessProbe:
-     delay: 30
-     path: /healthz
-     port: loop-opt-port
-readinessProbe:
-   delay: 30
-   path: /healthz
-   port: loop-opt-port
 
 nodeSelector: {}
 
@@ -75,48 +31,6 @@ tolerations: []
 
 affinity: {}
 
-
-hpa: {}
-#  minReplicas: 1
-#  maxReplicas: 10
-#  targetCpu: 50
-
-pipelineResources:
-  limits:
-    cpu: 1000m
-    memory: 1Gi
-  requests:
-    cpu: 500m
-    memory: 512Mi
-
-
-config:
-#  LOOP_KAFKA_BOOTSTRAPSERVER: "kafka1:9092,kafka2:9092,kafka3:9092,kafka4:9092,kafka5:9092"
-#  LOOP_KAFKA_GROUPID: "loop-opt"
-#  LOOP_KAFKA_TOPICS: "prod.routing_data"
-#  LOOP_REDIS_HOST: "rfs-data-redis:26379"
-#  LOOP_REDIS_MASTER: "mymaster"
-#  LOOP_REDIS_USER: ""
-#  LOOP_REDIS_PWD: ""
-#  LOOP_CQL_HOST: "k8ssandra-cluster-flux-k8s-dc2-service.k8ssandra-flux"
-#  LOOP_CQL_USERNAME: "k8ssandra-cluster-flux-superuser"
-#  LOOP_CQL_PASSWORD: "q0roy76T4IbQwkKTGmOD"
-#  LOOP_CQL_KEYSPACE: "loop_optimization"
-#  LOOP_CQL_REPLICATION: 3
-
-  LOOP_KAFKA_BOOTSTRAPSERVER: "kafka1:9092,kafka2:9092,kafka3:9092,kafka4:9092,kafka5:9092"
-  LOOP_KAFKA_GROUPID: "loop-opt"
-  LOOP_KAFKA_TOPICS: "staging.routing_data"
-  LOOP_REDIS_HOST: "rfs-data-redis:26379"
-  LOOP_REDIS_MASTER: "mymaster"
-  LOOP_REDIS_USER: ""
-  LOOP_REDIS_PWD: ""
-  LOOP_CQL_HOST: "k8ssandra-cluster-staging-k8s-dc2-service.k8ssandra-staging"
-  LOOP_CQL_USERNAME: "k8ssandra-cluster-staging-superuser"
-  LOOP_CQL_PASSWORD: "WxdmVzKbUx8jzSCrssu9"
-  LOOP_CQL_KEYSPACE: "loop_optimization"
-  LOOP_CQL_REPLICATION: 3
-  LOOP_NEWRELICLICENSEKEY: ""
 
 
 

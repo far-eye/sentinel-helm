@@ -1,7 +1,6 @@
 apiVersion: v2
-name: loop-optimization-chart
-description: Chart For Loop Optimization
-
+name: redis-sentinel-chart
+description: Chart Redis Sentinel
 # A chart can be either an 'application' or a 'library' chart.
 #
 # Application charts are a collection of templates that can be packaged into versioned archives
@@ -14,4 +13,4 @@ type: application
 
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
-version: 1.0.1
+version: 0.0.1
