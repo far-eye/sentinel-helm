@@ -1,0 +1,13 @@
+apiVersion: v1
+entries:
+  redis-sentinel-chart:
+  - apiVersion: v2
+    created: "2022-07-04T10:38:36.330592391Z"
+    description: Chart Redis Sentinel
+    digest: 47a24245ba4fd66b255eded8ec833ec01cb48ee5b3d908ad2137e3d6cf793ab1
+    name: redis-sentinel-chart
+    type: application
+    urls:
+    - https://github.com/far-eye/sentinel-helm/releases/download/redis-sentinel-chart-1.0.3/redis-sentinel-chart-1.0.3.tgz
+    version: 1.0.3
+generated: "2022-07-04T10:38:36.330596591Z"
